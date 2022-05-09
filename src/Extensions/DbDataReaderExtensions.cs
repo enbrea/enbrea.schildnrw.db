@@ -1,8 +1,8 @@
-﻿#region ENBREA SCHILD-NRW.DB - Copyright (C) 2020 STÜBER SYSTEMS GmbH
+﻿#region ENBREA SCHILD-NRW.DB - Copyright (C) 2022 STÜBER SYSTEMS GmbH
 /*    
  *    ENBREA SCHILD-NRW.DB
  *    
- *    Copyright (C) 2020 STÜBER SYSTEMS GmbH
+ *    Copyright (C) 2022 STÜBER SYSTEMS GmbH
  *
  *    Licensed under the MIT License, Version 2.0. 
  * 
