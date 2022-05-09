@@ -1,5 +1,5 @@
 [![NuGet Gallery](https://img.shields.io/badge/NuGet%20Gallery-enbrea.schildnrw.db-blue.svg)](https://www.nuget.org/packages/Enbrea.SchildNRW.Db/)
-![GitHub](https://img.shields.io/github/license/stuebersystems/enbrea.schildnrw.db)
+![GitHub](https://img.shields.io/github/license/enbrea/enbrea.schildnrw.db)
 
 # ENBREA SCHILD-NRW.DB
 
@@ -17,7 +17,7 @@ Voraussetzung für den Zugriff ist eine Installation von Schild-NRW auf Grundlag
 
 ## Dokumentation
 
-Die Dokumentation dieser Bibliothek findest Du im [GitHub-Wiki](https://github.com/stuebersystems/enbrea.schildnrw.db/wiki).
+Die Dokumentation dieser Bibliothek findest Du im [GitHub-Wiki](https://github.com/enbrea/enbrea.schildnrw.db/wiki).
 
 ## Kann ich mithelfen?
 
