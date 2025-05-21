@@ -1,8 +1,8 @@
-﻿#region ENBREA - Copyright (C) 2023 STÜBER SYSTEMS GmbH
+﻿#region Enbrea - Copyright (C) STÜBER SYSTEMS GmbH
 /*    
- *    ENBREA
+ *    Enbrea
  *    
- *    Copyright (C) 2023 STÜBER SYSTEMS GmbH
+ *    Copyright (C) STÜBER SYSTEMS GmbH
  *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU Affero General Public License, version 3,
@@ -20,7 +20,7 @@
 #endregion
 
 using Microsoft.Data.SqlClient;
-using MySql.Data.MySqlClient;
+using MySqlConnector;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
