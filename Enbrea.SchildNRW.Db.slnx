@@ -1,0 +1,7 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+  </Folder>
+  <Project Path="src/Enbrea.SchildNRW.Db.csproj" />
+  <Project Path="test/SmokeTest/Enbrea.SchildNRW.Db.SmokeTest.csproj" />
+</Solution>
