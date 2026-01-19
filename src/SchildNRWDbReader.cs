@@ -24,6 +24,7 @@ using MySqlConnector;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
+using System.Data.Odbc;
 
 namespace Enbrea.SchildNRW.Db
 {
@@ -55,8 +56,10 @@ namespace Enbrea.SchildNRW.Db
             static void SetQuery(DbCommand dbCommand)
             {
                 dbCommand.CommandText =
-                    $"select ID, Bezeichnung, StatistikKrz, Sichtbar " +
-                    $"from k_staat";
+                    """
+                    select ID, Bezeichnung, StatistikKrz, Sichtbar
+                    from k_staat
+                    """;
             }
         }
 
@@ -74,8 +77,10 @@ namespace Enbrea.SchildNRW.Db
             static void SetQuery(DbCommand dbCommand)
             {
                 dbCommand.CommandText =
-                    $"select ID, KursartAllg, InternBez, Bezeichnung, Sichtbar " +
-                    $"from eigeneschule_kursartallg";
+                    """
+                    select ID, KursartAllg, InternBez, Bezeichnung, Sichtbar
+                    from eigeneschule_kursartallg
+                    """;
             }
         }
 
@@ -95,9 +100,15 @@ namespace Enbrea.SchildNRW.Db
             void SetQuery(DbCommand dbCommand)
             {
                 dbCommand.CommandText =
-                    $"select ID,  Jahr, Abschnitt, KurzBez, Jahrgang_ID, Fach_ID, KursartAllg, LehrerKrz " +
-                    $"from kurse " +
-                    $"where Jahr = @year and Abschnitt = @schoolTerm";
+                    $"""
+                    select 
+                      ID,  Jahr, Abschnitt, KurzBez, Jahrgang_ID, Fach_ID, KursartAllg, LehrerKrz
+                    from 
+                      kurse
+                    where 
+                      Jahr = {ParamName("year")} and 
+                      Abschnitt = {ParamName("schoolTerm")}
+                    """;
 
                 var dbParameter1 = dbCommand.CreateParameter();
                 dbParameter1.ParameterName = "year";
@@ -125,8 +136,12 @@ namespace Enbrea.SchildNRW.Db
             static void SetQuery(DbCommand dbCommand)
             {
                 dbCommand.CommandText =
-                    $"select ID, Kursart, KursartAllg, InternBez, Bezeichnung, Sichtbar " +
-                    $"from eigeneschule_kursart";
+                    """
+                    select 
+                      ID, KursartAllg, InternBez, Bezeichnung, Sichtbar
+                    from 
+                      eigeneschule_kursartallg
+                    """;
             }
         }
 
@@ -144,9 +159,14 @@ namespace Enbrea.SchildNRW.Db
             static void SetQuery(DbCommand dbCommand)
             {
                 dbCommand.CommandText =
-                    $"select ID, SchulNr, Bezeichnung1, Bezeichnung2, Bezeichnung3, Strasse, PLZ, Ort, Telefon, Fax, EMail, Schuljahr, SchuljahrAbschnitt, " +
-                    $"AnzahlAbschnitte, AbschnittBez, BezAbschnitt1, BezAbschnitt2, BezAbschnitt3, BezAbschnitt4 " +
-                    $"from eigeneschule";
+                    """
+                    select 
+                      ID, SchulNr, Bezeichnung1, Bezeichnung2, Bezeichnung3, Strasse, PLZ, Ort, Telefon, Fax, EMail, 
+                      Schuljahr, SchuljahrAbschnitt, AnzahlAbschnitte, AbschnittBez, 
+                      BezAbschnitt1, BezAbschnitt2, BezAbschnitt3, BezAbschnitt4
+                    from 
+                      eigeneschule
+                    """;
             }
         }
 
@@ -164,8 +184,13 @@ namespace Enbrea.SchildNRW.Db
             static void SetQuery(DbCommand dbCommand)
             {
                 dbCommand.CommandText =
-                    $"select ID, Bezeichnung, Klasse, Jahrgang_ID, FKlasse, VKlasse, OrgFormKrz, KlassenlehrerKrz, StvKlassenlehrerKrz, Klassenart " +
-                    $"from versetzung";
+                    """
+                    select 
+                      ID, Bezeichnung, Klasse, Jahrgang_ID, FKlasse, VKlasse, OrgFormKrz, 
+                      KlassenlehrerKrz, StvKlassenlehrerKrz, Klassenart, ASDKlasse
+                    from 
+                      versetzung
+                    """;
             }
         }
 
@@ -183,10 +208,15 @@ namespace Enbrea.SchildNRW.Db
             static void SetQuery(DbCommand dbCommand)
             {
                 dbCommand.CommandText =
-                    $"select ID, Bezeichnung, StatistikKrz, Sichtbar " +
-                    $"from k_klassenorgform";
+                    """
+                    select 
+                      ID, Bezeichnung, StatistikKrz, Sichtbar
+                    from 
+                      k_klassenorgform
+                    """;
             }
         }
+
         /// <summary>
         /// Returns back all student-course-relationships for a given school year (Schuljahr) and school term (Abschnitt)
         /// </summary>
@@ -203,11 +233,20 @@ namespace Enbrea.SchildNRW.Db
             void SetQuery(DbCommand dbCommand)
             {
                 dbCommand.CommandText =
-                    $"select distinct sld.Kurs_ID, sld.Kursart, sld.KursartAllg, slas.Schueler_ID " +
-                    $"from SchuelerLernabschnittsdaten slas " +
-                    $"join SchuelerLeistungsdaten sld " +
-                    $"on sld.Abschnitt_ID = slas.ID " +
-                    $"where not (sld.Kurs_ID is null) and (slas.Jahr = @year) and (slas.Abschnitt = @schoolTerm)";
+                    $"""
+                    select distinct 
+                      sld.Kurs_ID, sld.Kursart, sld.KursartAllg, slas.Schueler_ID 
+                    from 
+                      SchuelerLernabschnittsdaten slas 
+                    inner join 
+                      SchuelerLeistungsdaten sld
+                    on 
+                      sld.Abschnitt_ID = slas.ID
+                    where 
+                      (not (sld.Kurs_ID is null)) and 
+                      (slas.Jahr = {ParamName("year")}) and 
+                      (slas.Abschnitt = {ParamName("schoolTerm")})
+                    """;
 
                 var dbParameter1 = dbCommand.CreateParameter();
                 dbParameter1.ParameterName = "year";
@@ -238,11 +277,20 @@ namespace Enbrea.SchildNRW.Db
             void SetQuery(DbCommand dbCommand)
             {
                 dbCommand.CommandText =
-                    $"select distinct sld.Kurs_ID, sld.Kursart, sld.KursartAllg, slas.Schueler_ID " +
-                    $"from SchuelerLernabschnittsdaten slas " +
-                    $"join SchuelerLeistungsdaten sld " +
-                    $"on sld.Abschnitt_ID = slas.ID " +
-                    $"where (sld.Kurs_ID = @courseId) and (slas.Jahr = @year) and (slas.Abschnitt = @schoolTerm)";
+                    $"""
+                    select distinct 
+                      sld.Kurs_ID, sld.Kursart, sld.KursartAllg, slas.Schueler_ID
+                    from 
+                      SchuelerLernabschnittsdaten slas
+                    inner join 
+                      SchuelerLeistungsdaten sld
+                    on 
+                      sld.Abschnitt_ID = slas.ID
+                    where 
+                      (sld.Kurs_ID = {ParamName("courseId")}) and 
+                      (slas.Jahr = {ParamName("year")}) and 
+                      (slas.Abschnitt = {ParamName("schoolTerm")})
+                    """;
 
                 var dbParameter1 = dbCommand.CreateParameter();
                 dbParameter1.ParameterName = "courseId";
@@ -274,11 +322,17 @@ namespace Enbrea.SchildNRW.Db
             static void SetQuery(DbCommand dbCommand)
             {
                 dbCommand.CommandText =
-                    $"select S.ID, S.Status, S.Name, S.Vorname, S.SchulEmail, S.Geburtsdatum, S.Geschlecht, S.Klasse, S.Aufnahmedatum, " +
-                    $"S.Entlassdatum, S.Strasse, S.PLZ, o.Bezeichnung AS Ort, o.Kreis, o.Land " +
-                    $"from schueler s " +
-                    $"join k_ort o " +
-                    $"on s.PLZ = o.PLZ ";
+                    """
+                    select 
+                      S.ID, S.Status, S.Name, S.Vorname, S.SchulEmail, S.EMail, S.Geburtsdatum, S.Geschlecht, S.Klasse, 
+                      S.Aufnahmedatum, S.Entlassdatum, S.Strasse, S.PLZ, o.Bezeichnung AS Ort, o.Kreis, o.Land
+                    from 
+                      schueler s
+                    join 
+                      k_ort o
+                    on 
+                      s.PLZ = o.PLZ
+                    """;
             }
         }
 
@@ -297,12 +351,19 @@ namespace Enbrea.SchildNRW.Db
             void SetQuery(DbCommand dbCommand)
             {
                 dbCommand.CommandText =
-                    $"select S.ID, S.Status, S.Name, S.Vorname, S.SchulEmail, S.Geburtsdatum, S.Geburtsname, S.Geburtsort, S.Geschlecht, S.Klasse, " +
-                    $"S.Jahrgang, S.StaatKrz, S.StaatKrz2, S.Aufnahmedatum, S.Entlassdatum, S.Strasse, S.PLZ, o.Bezeichnung AS Ort, o.Kreis, o.Land " +
-                    $"from schueler s " +
-                    $"join k_ort o " +
-                    $"on s.PLZ = o.PLZ " +
-                    $"where (Status = @status)";
+                    $"""
+                    select 
+                      S.ID, S.Status, S.Name, S.Vorname, S.SchulEmail, S.EMail, S.Geburtsdatum, S.Geburtsname, S.Geburtsort, S.Geschlecht, S.Klasse,
+                      S.Jahrgang, S.StaatKrz, S.StaatKrz2, S.Aufnahmedatum, S.Entlassdatum, S.Strasse, S.PLZ, o.Bezeichnung AS Ort, o.Kreis, o.Land
+                    from 
+                      schueler s
+                    inner join 
+                      k_ort o
+                    on 
+                      s.PLZ = o.PLZ
+                    where 
+                      (Status = {ParamName("status")})
+                    """;
 
                 var dbParameter1 = dbCommand.CreateParameter();
                 dbParameter1.ParameterName = "status";
@@ -329,12 +390,21 @@ namespace Enbrea.SchildNRW.Db
             void SetQuery(DbCommand dbCommand)
             {
                 dbCommand.CommandText =
-                    $"select S.ID, S.Status, S.Name, S.Vorname, S.SchulEmail, S.Geburtsdatum, S.Geschlecht, S.Klasse, S.Aufnahmedatum, " +
-                    $"S.Entlassdatum, S.Strasse, S.PLZ, o.Bezeichnung AS Ort, o.Kreis, o.Land " +
-                    $"from schueler s " +
-                    $"join k_ort o " +
-                    $"on s.PLZ = o.PLZ " +
-                    $"where (Status = @status) and ((Aufnahmedatum is null) or (Aufnahmedatum >= @enrollmentDate)) and ((Entlassdatum is null) or (Entlassdatum >= @leaveDate))";
+                    $"""
+                    select 
+                      S.ID, S.Status, S.Name, S.Vorname, S.SchulEmail, S.EMail, S.Geburtsdatum, S.Geschlecht, S.Klasse, 
+                      S.Aufnahmedatum, S.Entlassdatum, S.Strasse, S.PLZ, o.Bezeichnung AS Ort, o.Kreis, o.Land
+                    from 
+                      schueler s
+                    inner join 
+                      k_ort o
+                    on 
+                      s.PLZ = o.PLZ
+                    where 
+                      (Status = {ParamName("status")} and 
+                      ((Aufnahmedatum is null) or (Aufnahmedatum >= {ParamName("enrollmentDate")})) and 
+                      ((Entlassdatum is null) or (Entlassdatum >= {ParamName("leaveDate")}))
+                    """;
 
                 var dbParameter1 = dbCommand.CreateParameter();
                 dbParameter1.ParameterName = "status";
@@ -370,12 +440,20 @@ namespace Enbrea.SchildNRW.Db
             void SetQuery(DbCommand dbCommand)
             {
                 dbCommand.CommandText =
-                    $"select S.ID, S.Status, S.Name, S.Vorname, S.SchulEmail, S.Geburtsdatum, S.Geschlecht, S.Klasse, S.Aufnahmedatum, " +
-                    $"S.Entlassdatum, S.Strasse, S.PLZ, o.Bezeichnung AS Ort, o.Kreis, o.Land " +
-                    $"from schueler s " +
-                    $"join k_ort o " +
-                    $"on s.PLZ = o.PLZ " +
-                    $"where ((Aufnahmedatum is null) or (Aufnahmedatum >= @enrollmentDate)) and ((Entlassdatum is null) or (Entlassdatum >= @leaveDate))";
+                    $"""
+                    select 
+                      S.ID, S.Status, S.Name, S.Vorname, S.SchulEmail, S.Geburtsdatum, S.Geschlecht, S.Klasse, 
+                      S.Aufnahmedatum, S.Entlassdatum, S.Strasse, S.PLZ, o.Bezeichnung AS Ort, o.Kreis, o.Land
+                    from 
+                      schueler s
+                    inner join 
+                      k_ort o
+                    on 
+                      s.PLZ = o.PLZ
+                    where 
+                      ((Aufnahmedatum is null) or (Aufnahmedatum >= {ParamName("enrollmentDate")})) and 
+                      ((Entlassdatum is null) or (Entlassdatum >= {ParamName("leaveDate")}))
+                    """;
 
                 var dbParameter1 = dbCommand.CreateParameter();
                 dbParameter1.ParameterName = "enrollmentDate";
@@ -406,14 +484,21 @@ namespace Enbrea.SchildNRW.Db
             void SetQuery(DbCommand dbCommand)
             {
                 dbCommand.CommandText =
-                    $"select Klasse, Schueler_ID " +
-                    $"from SchuelerLernabschnittsdaten " +
-                    $"where (Jahr = @year) and (Abschnitt = @schoolTerm)";
+                    $"""
+                    select 
+                      Klasse, Schueler_ID
+                    from 
+                      SchuelerLernabschnittsdaten
+                    where
+                      (Klasse not is null) and
+                      (Jahr = {ParamName("year")}) and 
+                      (Abschnitt = {ParamName("schoolTerm")})
+                    """;
 
                 var dbParameter1 = dbCommand.CreateParameter();
                 dbParameter1.ParameterName = "year";
                 dbParameter1.Value = year;
-                
+
                 var dbParameter2 = dbCommand.CreateParameter();
                 dbParameter2.ParameterName = "schoolTerm";
                 dbParameter2.Value = schoolTerm;
@@ -436,7 +521,7 @@ namespace Enbrea.SchildNRW.Db
 
             static void SetQuery(DbCommand dbCommand)
             {
-                dbCommand.CommandText = $"select * from eigeneSchule_faecher";
+                dbCommand.CommandText = "select * from eigeneSchule_faecher";
             }
         }
 
@@ -453,7 +538,7 @@ namespace Enbrea.SchildNRW.Db
 
             static void SetQuery(DbCommand dbCommand)
             {
-                dbCommand.CommandText = $"select Kurs_ID, Lehrer_ID, Anteil from kurslehrer";
+                dbCommand.CommandText = "select Kurs_ID, Lehrer_ID, Anteil from kurslehrer";
             }
         }
 
@@ -470,16 +555,44 @@ namespace Enbrea.SchildNRW.Db
 
             static void SetQuery(DbCommand dbCommand)
             {
-                dbCommand.CommandText = 
-                    $"select l.ID, l.Kuerzel, l.Nachname, l.Vorname, l.Anrede, l.Titel, l.Geburtsdatum, l.Geschlecht, l.EMail, " +
-                    $"l.Strasse, l.PLZ, o.Bezeichnung AS Ort, o.Kreis, o.Land, l.Tel, l.Handy, l.DatumZugang, l.DatumAbgang, " +
-                    $"l.EMailDienstlich " +
-                    $"from k_lehrer l " +
-                    $"join k_ort o " +
-                    $"on l.PLZ = o.PLZ ";
+                dbCommand.CommandText =
+                    """
+                    select 
+                      l.ID, l.Kuerzel, l.Nachname, l.Vorname, l.Anrede, l.Titel, l.Geburtsdatum, l.Geschlecht, l.EMail,
+                      l.Strasse, l.PLZ, o.Bezeichnung AS Ort, o.Kreis, o.Land, l.Tel, l.Handy, l.DatumZugang, l.DatumAbgang,
+                      l.EMailDienstlich
+                    from 
+                      k_lehrer l
+                    inner join 
+                      k_ort o
+                    on 
+                      l.PLZ = o.PLZ
+                    """;
             }
         }
 
+        /// <summary>
+        /// Returns back all years (Jahrgänge)
+        /// </summary>
+        /// <returns>An async enumerator of years</returns>
+        public async IAsyncEnumerable<Year> YearsAsync()
+        {
+            await foreach (var entity in EntitiesAsync(command => SetQuery(command), reader => Year.FromDb(reader)))
+            {
+                yield return entity;
+            }
+
+            static void SetQuery(DbCommand dbCommand)
+            {
+                dbCommand.CommandText =
+                    """
+                    select 
+                      ID, InternBez, ASDJahrgang, ASDBezeichnung, Sichtbar
+                    from 
+                      eigeneschule_jahrgaenge
+                    """;
+            }
+        }
         /// <summary>
         /// Creates either a MS SQL Server or a MySQL database connection
         /// </summary>
@@ -488,6 +601,7 @@ namespace Enbrea.SchildNRW.Db
         {
             return _provider switch
             {
+                SchildNRWDbProvider.MsAccess => new OdbcConnection(_dbConnectionString),
                 SchildNRWDbProvider.MsSql => new SqlConnection(_dbConnectionString),
                 SchildNRWDbProvider.MySql => new MySqlConnection(_dbConnectionString),
                 _ => throw new ArgumentException("Illegal argument")
@@ -525,6 +639,11 @@ namespace Enbrea.SchildNRW.Db
             {
                 await dbConnection.CloseAsync();
             }
+        }
+
+        private string ParamName(string paramName)
+        {
+            return _provider == SchildNRWDbProvider.MsAccess ? "?" : $"@{paramName}";
         }
     }
 }

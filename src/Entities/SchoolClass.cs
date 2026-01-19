@@ -36,8 +36,9 @@ namespace Enbrea.SchildNRW.Db
         public string PreviousSchoolClass { get; set; }
         public string SchoolClassOrganisation { get; set; }
         public string SchoolClassType { get; set; }
-        public int? SchoolYearId { get; set; }
+        public string StatisticalCode { get; set; }
         public string Teacher { get; set; }
+        public int? YearId { get; set; }
 
         public static SchoolClass FromDb(DbDataReader reader)
         {
@@ -46,7 +47,8 @@ namespace Enbrea.SchildNRW.Db
                 Id = reader.GetValue<int>("ID"),
                 Name = reader.GetValue<string>("Bezeichnung"),
                 Code = reader.GetValue<string>("Klasse"),
-                SchoolYearId = reader.GetValue<int>("Jahrgang_ID"),
+                StatisticalCode = reader.GetValue<string>("ASDKlasse"),
+                YearId = reader.GetValue<int>("Jahrgang_ID"),
                 NextSchoolClass = reader.GetValue<string>("FKlasse"),
                 PreviousSchoolClass = reader.GetValue<string>("VKlasse"),
                 SchoolClassOrganisation = reader.GetValue<string>("OrgFormKrz"),

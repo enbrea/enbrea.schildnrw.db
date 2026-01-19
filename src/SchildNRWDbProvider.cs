@@ -23,7 +23,8 @@ namespace Enbrea.SchildNRW.Db
 {
     public enum SchildNRWDbProvider
     {
-        MySql,
-        MsSql
+        MsAccess,
+        MsSql,
+        MySql
     }
 }

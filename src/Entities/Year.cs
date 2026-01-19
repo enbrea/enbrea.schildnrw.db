@@ -24,31 +24,25 @@ using System.Data.Common;
 namespace Enbrea.SchildNRW.Db
 {
     /// <summary>
-    /// An entity within the SchildNRW database table "kurse"
+    /// An entity within the SchildNRW database table "eigeneschule_jahrgaenge"
     /// </summary>
-    public class Course
+    public class Year
     {
-        public short CalendarYear { get; set; }
-        public string CourseCategory { get; set; }
+        public string ASDName { get; set; }
+        public string ASDYear { get; set; }
         public int Id { get; set; }
-        public string Name { get; set; }
-        public short Semester { get; set; }
-        public int SubjectId { get; set; }
-        public string Teacher { get; set; }
-        public int? Year { get; set; }
+        public string InternalCode { get; set; }
+        public char? Visible { get; set; }
 
-        public static Course FromDb(DbDataReader reader)
+        public static Year FromDb(DbDataReader reader)
         {
-            return new Course
+            return new Year
             {
                 Id = reader.GetValue<int>("ID"),
-                CalendarYear = reader.GetValue<short>("Jahr"),
-                Semester = reader.GetValue<short>("Abschnitt"),
-                Name = reader.GetValue<string>("KurzBez"),
-                Year = reader.GetValue<int?>("Jahrgang_ID"),
-                SubjectId = reader.GetValue<int>("Fach_ID"),
-                CourseCategory = reader.GetValue<string>("KursartAllg"),
-                Teacher = reader.GetValue<string>("LehrerKrz")
+                InternalCode = reader.GetValue<string>("InternBez"),
+                ASDYear = reader.GetValue<string>("ASDJahrgang"),
+                ASDName = reader.GetValue<string>("ASDBezeichnung"),
+                Visible = reader.GetValue<char?>("Sichtbar")
             };
         }
     }

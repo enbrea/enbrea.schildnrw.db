@@ -44,11 +44,12 @@ namespace Enbrea.SchildNRW.Db
         public string Nationality2 { get; set; }
         public string PlaceOfBirth { get; set; }
         public string PostalCode { get; set; }
+        public string PrivateEmail { get; set; }
         public string Region { get; set; }
         public string SchoolClass { get; set; }
-        public short SchoolLevel { get; set; }
         public StudentStatus? Status { get; set; }
         public string Street { get; set; }
+        public short Year { get; set; }
 
         public static Student FromDb(DbDataReader reader)
         {
@@ -64,14 +65,15 @@ namespace Enbrea.SchildNRW.Db
                 Country = reader.GetValue<string>("Land"),
                 Email = reader.GetValue<string>("SchulEmail"),
                 Birthdate = reader.GetValue<DateTime?>("Geburtsdatum"),
+                Birthname = reader.GetValue<string>("Geburtsname"),
+                PlaceOfBirth = reader.GetValue<string>("Geburtsort"),
                 Gender = reader.GetGenderValue("Geschlecht"),
+                PrivateEmail = reader.GetValue<string>("EMail"),
                 SchoolClass = reader.GetValue<string>("Klasse"),
                 EnrollmentDate = reader.GetValue<DateTime?>("Aufnahmedatum"),
                 LeaveDate = reader.GetValue<DateTime?>("Entlassdatum"),
                 Status = reader.GetStatusValue("Status"),
-                Birthname = reader.GetValue<string>("Geburtsname"),
-                PlaceOfBirth = reader.GetValue<string>("Geburtsort"),
-                SchoolLevel = reader.GetValue<short>("Jahrgang"),
+                Year = reader.GetValue<short>("Jahrgang"),
                 Nationality1 = reader.GetValue<string>("StaatKrz"),
                 Nationality2 = reader.GetValue<string>("StaatKrz2")
             };

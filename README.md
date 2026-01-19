@@ -1,9 +1,12 @@
 [![NuGet Gallery](https://img.shields.io/badge/NuGet%20Gallery-enbrea.schildnrw.db-blue.svg)](https://www.nuget.org/packages/Enbrea.SchildNRW.Db/)
 ![GitHub](https://img.shields.io/github/license/enbrea/enbrea.schildnrw.db)
 
-# Enbrea SCHILD-NRW.DB
+# Enbrea SchildNRW.Db
 
-Eine .NET-Bibliothek zum direkten Lesen von Daten aus der Schild-NRW-Datenbank. Aktuell wird nur Schild-NRW unter MySQL unterstützt.
+Eine .NET-Bibliothek zum Lesen von Daten aus der Schild-NRW-Datenbank. 
+
++ Unterstützt .NET 10, .NET 9 and .NET 8
++ Unterstützt direkte Zugriffe auf MS Access- und MySQL-Datenbanken
 
 ## Installation
 
@@ -13,7 +16,7 @@ dotnet add package Enbrea.SchildNRW.Db
 
 ## Systemvoraussetzungen
 
-Voraussetzung für den Zugriff ist eine Installation von Schild-NRW auf Grundlage von MySQL. Enbrea SCHILD-NRW.DB greift direkt per ADO.NET auf die Datenbanktabellen zu. 
+Voraussetzung für den Zugriff ist eine Installation von Schild-NRW auf Grundlage von MS Access oder MySQL. Enbrea SchildNRW.Db greift direkt per ADO.NET auf die Datenbanktabellen zu. 
 
 ## Dokumentation
 

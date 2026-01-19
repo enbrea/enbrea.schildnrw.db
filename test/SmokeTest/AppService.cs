@@ -43,6 +43,7 @@ namespace Enbrea.SchildNRW.Db.SmokeTest
             Console.WriteLine("\t2 - Export School Classes (Klassen)");
             Console.WriteLine("\t3 - Export Students (Schüler)");
             Console.WriteLine("\t4 - Export Teachers (Lehrer)");
+            Console.WriteLine("\t5 - Export Courses (Kurse)");
             Console.Write("Your selection? ");
 
             switch (Console.ReadLine())
@@ -59,12 +60,33 @@ namespace Enbrea.SchildNRW.Db.SmokeTest
                 case "4":
                     await ExportTeachers();
                     break;
+                case "5":
+                    await ExportCourses();
+                    break;
             }
         }
 
         private SchildNRWDbReader CreateDbReader()
         {
             return new SchildNRWDbReader(_appConfig.DbProvider, _appConfig.DbConnection);
+        }
+
+        private async Task ExportCourses()
+        {
+            var dbReader = CreateDbReader();
+
+            Console.WriteLine();
+            Console.WriteLine("Courses:");
+            Console.WriteLine("--------");
+
+            await foreach (var course in dbReader.CoursesAsync(2025, 1))
+            {
+                Console.WriteLine(@"{0}, {1}, {2}, {3}",
+                    course.Id,
+                    course.Name,
+                    course.SubjectId,
+                    course.Teacher);
+            }
         }
 
         private async Task ExportMySchool()
